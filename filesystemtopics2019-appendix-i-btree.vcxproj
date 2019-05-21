@@ -99,21 +99,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="btnode.cpp" />
-    <ClCompile Include="btree.cpp" />
-    <ClCompile Include="buffile.cpp" />
-    <ClCompile Include="fixfld.cpp" />
-    <ClCompile Include="fixlen.cpp" />
-    <ClCompile Include="indbuff.cpp" />
-    <ClCompile Include="indnode.cpp" />
-    <ClCompile Include="iobuffer.cpp" />
-    <ClCompile Include="length.cpp" />
-    <ClCompile Include="recording.cpp" />
-    <ClCompile Include="simpind.cpp" />
-    <ClCompile Include="testbtree.cpp" />
-    <ClCompile Include="varlen.cpp" />
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="btnode.h" />
     <ClInclude Include="btree.h" />
     <ClInclude Include="buffile.h" />
@@ -127,6 +112,18 @@
     <ClInclude Include="recording.h" />
     <ClInclude Include="simpind.h" />
     <ClInclude Include="varlen.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="buffile.cpp" />
+    <ClCompile Include="fixfld.cpp" />
+    <ClCompile Include="fixlen.cpp" />
+    <ClCompile Include="indbuff.cpp" />
+    <ClCompile Include="indnode.cpp" />
+    <ClCompile Include="iobuffer.cpp" />
+    <ClCompile Include="length.cpp" />
+    <ClCompile Include="recording.cpp" />
+    <ClCompile Include="testbtree.cpp" />
+    <ClCompile Include="varlen.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

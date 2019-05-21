@@ -3,13 +3,51 @@
 //#include "btnode.h"
 
 #include <iostream>
-#include <string>
+#include <cstring>
 #include "btree.h"
 using namespace std;
+/*
+final tree depth 3 ( root - 1-2-3) but in code depth 2
+in result b-tree inserting V == height 2
+b-tree always balanced
+수요일까지...! 그리고 다음주 목요일이 마지막 클래스 hash!!!
+그래도 책에 있는 다른 것도 볼것...  ㅠ...
 
-const char * keys = "CSDTAMPIBWNGURKEHOLJYQZFXV";
+
+correct insertion!! 
+deletion 내맘대로...!!
+btree - remove
+leaf node / non leaf node
+non leaf node- separator, append to root
+
+
+leaf node?? redistribute merge
+
+
+	int InOrdertraversal(); !!! sorted result?
+			10
+		/		\
+	5				20
+				/		\
+			15				30
+5-10-15-20-30 순서로
+left - itself - right 출력
+
+level ordering?? root - child - child ... - leaf 이용
+queue 사용 
+root - c1 - c2
+root - c1 - c2 (pop) - c11 -c12 -c21 -c22
+...
+
+
+
+until! 
+s
+*/
+const char * keys = "CSDTAMPIBWN GURKEHOLJYQZFXV";
 
 const int BTreeSize = 3;
+
 int main(int argc, char * argv) {
 	int result, i;
 	BTree <char> bt(BTreeSize);
@@ -26,8 +64,13 @@ int main(int argc, char * argv) {
 		result = bt.Insert(keys[i], i);
 		bt.Print(cout);
 	}
-	bt.Search(1, 1);
+	bt.Search('A'); //after searching the value, print word file 22page !!!
+	bt.InOrdertraversal(cout);
 
+	for (i = 0; i < 26; i++) {
+		bt.Remove(keys[i]);
+		bt.Print(cout);
+	}
 	system("pause");
 	return 1;
 }

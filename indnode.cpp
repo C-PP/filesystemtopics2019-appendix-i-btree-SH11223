@@ -44,6 +44,7 @@ void IndexNode<keyType>::Print(ostream & stream) const
 
 }
 
+
 template <class keyType>
 int IndexNode<keyType>::SmallestKey()
 // returns value of smallest key

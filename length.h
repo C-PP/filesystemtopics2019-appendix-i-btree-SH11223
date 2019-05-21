@@ -13,7 +13,7 @@ class LengthFieldBuffer : public VariableLengthBuffer
 	// 
 	// To use this class, create a LengthFieldBuffer variable and associate definitions with the fields.
 	// operations are provided to allow values to be associated with the fields (Pack)
-	//	and to fetch the values of fields (Unpack)
+	//	and to 	the values of fields (Unpack)
 {
 public:
 	LengthFieldBuffer(int maxBytes = 1000); // construct with a maximum of maxFields
