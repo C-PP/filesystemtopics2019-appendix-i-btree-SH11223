@@ -11,7 +11,6 @@ final tree depth 3 ( root - 1-2-3) but in code depth 2
 in result b-tree inserting V == height 2
 b-tree always balanced
 수요일까지...! 그리고 다음주 목요일이 마지막 클래스 hash!!!
-그래도 책에 있는 다른 것도 볼것...  ㅠ...
 
 
 correct insertion!! 
@@ -64,12 +63,12 @@ int main(int argc, char * argv) {
 		result = bt.Insert(keys[i], i);
 		bt.Print(cout);
 	}
-	bt.Search('A'); //after searching the value, print word file 22page !!!
+//	bt.Search('A'); //after searching the value, print word file 22page !!!
 	bt.InOrdertraversal(cout);
 
 	for (i = 0; i < 26; i++) {
 		bt.Remove(keys[i]);
-		bt.Print(cout);
+	//	bt.Print(cout);
 	}
 	system("pause");
 	return 1;

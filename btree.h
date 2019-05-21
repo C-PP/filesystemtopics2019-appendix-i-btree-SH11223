@@ -33,6 +33,7 @@ public:
 	int Insert(const keyType key, const int recAddr);
 	int Remove(const keyType key, const int recAddr = -1);
 	int InOrdertraversal(ostream &);
+	int InOrdertraversal(ostream &, int, int);
 	int Search(const keyType key, const int recAddr = -1);
 	void Print(ostream &);
 	void Print(ostream &, int nodeAddr, int level);
@@ -108,38 +109,31 @@ int BTree<keyType>::Close()
 	return BTreeFile.Close();
 }
 
-
 template <class keyType>
-int BTree<keyType>::Insert(const keyType key, const int recAddr) //bt.Insert(keys[i], i);
+int BTree<keyType>::Insert(const keyType key, const int recAddr)
 {
 	int result; int level = Height - 1;
 	int newLargest = 0;
 	keyType prevKey, largestKey;
 	BTNode * thisNode = nullptr, *newNode = nullptr, *parentNode = nullptr;
 	thisNode = FindLeaf(key);
-
 	// test for special case of new largest key in tree
 	if (key > thisNode->LargestKey())
 	{
 		newLargest = 1;
 		prevKey = thisNode->LargestKey();
 	}
-
 	result = thisNode->Insert(key, recAddr);
-
-	
 	// handle special case of new largest key in tree
-	if (newLargest) {
-		for (int i = 0; i < Height; i++)
+	if (newLargest)
+		for (int i = 0; i < Height - 1; i++)
 		{
-			Nodes[i]->UpdateKey(thisNode->LargestKey(), key); // ?
+			Nodes[i]->UpdateKey(prevKey, key);
 			if (i > 0) Store(Nodes[i]);
 		}
-	}
 	while (result == -1) // if overflow and not root
 	{
 		//remember the largest key
-
 		largestKey = thisNode->LargestKey();
 		// split the node
 		newNode = NewNode();
@@ -150,19 +144,29 @@ int BTree<keyType>::Insert(const keyType key, const int recAddr) //bt.Insert(key
 		if (level < 0) break;
 		// insert newNode into parent of thisNode
 		parentNode = Nodes[level];
-		result = parentNode->UpdateKey(largestKey, thisNode->LargestKey()); //********************Áß¿ä
+		result = parentNode->UpdateKey(largestKey, thisNode->LargestKey());
 		result = parentNode->Insert(newNode->LargestKey(), newNode->RecAddr);
 		thisNode = parentNode;
 	}
 	Store(thisNode);
-
-	if (level >= 0) {
-
-		return 1;// insert complete
-	}
+	if (level >= 0) return 1;// insert complete
+							 // else we just split the root
 	int newAddr = BTreeFile.Append(Root); // put previous root into file
 										  // insert 2 keys in new root node
-
+	Root.Keys[0] = thisNode->LargestKey();
+	Root.RecAddrs[0] = newAddr;
+	Root.Keys[1] = newNode->LargestKey();
+	Root.RecAddrs[1] = newNode->RecAddr;
+	Root.NumKeys = 2;
+	Height++;
+	return 1;
+}/*
+	Root.Keys[0] = thisNode->LargestKey();
+	Root.RecAddrs[0] = newAddr;
+	Root.Keys[1] = newNode->LargestKey();
+	Root.RecAddrs[1] = newNode->RecAddr;
+	Root.NumKeys = 2;
+	Height++;/*
 	BTNode newNode2 = BTNode(3);
 	Root.Copy(newAddr, &newNode2);
 	Root.Keys[0] = newNode2.LargestKey();
@@ -182,7 +186,7 @@ int BTree<keyType>::Insert(const keyType key, const int recAddr) //bt.Insert(key
 	Nodes[1] = &newNode2;
 	Nodes[0] = &Root;
 	return 1;
-}
+}*/
 
 template <class keyType>
 int BTree<keyType>::Remove(const keyType key, const int recAddr)
@@ -194,20 +198,33 @@ int BTree<keyType>::Remove(const keyType key, const int recAddr)
 template<class keyType>
 inline int BTree<keyType>::InOrdertraversal(ostream &stream)
 {
-	/*BTNode * thisNode = Fetch(nodeAddr);
-	stream << "BTree::Print() ->Node at level " << level << " address " << nodeAddr << ' ' << endl;
-	thisNode->Print(stream);
+	
+	//Root.Print(stream);
+	if (Height > 1)
+		for (int i = 0; i < Root.numKeys(); i++)
+		{
+			InOrdertraversal(stream, Root.RecAddrs[i], 2);
+		}
+	return 1;
+}
+
+template<class keyType>
+inline int BTree<keyType>::InOrdertraversal(ostream &stream,int nodeAddr, int level)
+{
+	BTNode * thisNode = Fetch(nodeAddr);
+	//stream << "BTree::Print() ->Node at level " << level << " address " << nodeAddr << ' ' << endl;
+	if(level == Height)
+		thisNode->Print(stream);
 	if (Height > level)
 	{
 		level++;
 		for (int i = 0; i < thisNode->numKeys(); i++)
 		{
-			Print(stream, thisNode->RecAddrs[i], level);
+			InOrdertraversal(stream, thisNode->RecAddrs[i], level);
 		}
-		stream << "end of level " << level << endl;
+		//stream << "end of level " << level << endl;
 	}
-	Print(stream);*/
-	return 0;
+	return 1;
 }
 
 template <class keyType>
