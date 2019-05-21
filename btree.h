@@ -191,7 +191,25 @@ int BTree<keyType>::Insert(const keyType key, const int recAddr)
 template <class keyType>
 int BTree<keyType>::Remove(const keyType key, const int recAddr)
 {
-	// left for exercise!!!!!!!!!!!!!!!!!
+	BTNode * leafNode, *parentNode;
+	leafNode = FindLeaf(key);
+	int level = Height - 1;
+	int addr = leafNode->Search(key, recAddr);
+	keyType tempkey;
+	while (level >= 0) {
+		if (leafNode->LargestKey() == key) {
+			tempkey = leafNode->Keys[leafNode->numKeys() - 2];
+			leafNode->Remove(key, addr);
+			leafNode->UpdateKey(key, tempkey);
+			level--;
+			leafNode = Nodes[level];
+		}
+		else {
+			leafNode->Remove(key, addr);
+			break;
+		}
+	}
+
 	return -1;
 }
 

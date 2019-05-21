@@ -67,8 +67,9 @@ int main(int argc, char * argv) {
 	bt.InOrdertraversal(cout);
 
 	for (i = 0; i < 26; i++) {
+		cout << "Remove Key" << keys[i] << endl;
 		bt.Remove(keys[i]);
-	//	bt.Print(cout);
+		bt.Print(cout);
 	}
 	system("pause");
 	return 1;
